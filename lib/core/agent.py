@@ -490,7 +490,11 @@ class Agent(object):
                 if Backend.getIdentifiedDbms() in (DBMS.ACCESS, DBMS.MCKOI):
                     nulledCastedField = rootQuery.isnull.query % (nulledCastedField, nulledCastedField)
                 else:
-                    nulledCastedField = rootQuery.isnull.query % nulledCastedField
+                    try:
+                        nulledCastedField = rootQuery.isnull.query % nulledCastedField
+                    except:
+                        nulledCastedField = rootQuery.isnull.query.format(nulledCastedField)
+
 
             kb.binaryField = conf.binaryFields and field in conf.binaryFields
             if conf.hexConvert or kb.binaryField:
